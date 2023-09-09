@@ -56,7 +56,7 @@
 
     <h2 class="text-2xl font-semibold mt-10 mb-4">
         @if($isEditingProject)
-            <span>Edit</span>
+            <span>Save</span>
         @else
             <span>Create</span>
         @endif
@@ -71,9 +71,10 @@
                 @error('project_name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
             <div class="flex-shrink-0">
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+{{--                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">--}}
+                <button type="submit"  class="px-4 py-2 rounded text-white {{ $isEditingProject ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600' }}">
                     @if($isEditingProject)
-                        <span>Edit</span>
+                        <span>Save</span>
                     @else
                         <span>Create</span>
                     @endif
@@ -85,9 +86,16 @@
     <hr/>
 
     <!-- CREATE TASK -->
-    <h3 class="text-2xl font-semibold mt-10 mb-4">Create Task</h3>
+    <h3 class="text-2xl font-semibold mt-10 mb-4">
+        @if($isEditingTask)
+            <span>Edit</span>
+        @else
+            <span>Create</span>
+        @endif
+        Task
+    </h3>
 
-    <form wire:submit.prevent="createTask" class="mb-10">
+    <form wire:submit.prevent="saveTask" class="mb-10">
 
         <div class="flex space-x-6">
             <div class="flex-1">
@@ -107,8 +115,14 @@
                 </select>
             </div>
             <div class="flex-shrink-0">
-{{--                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create Task</button>--}}
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Create Task</button>
+                <button type="submit" class="px-4 py-2 rounded text-white {{ $isEditingTask ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600' }}">
+                    @if($isEditingTask)
+                        <span>Save</span>
+                    @else
+                        <span>Create</span>
+                    @endif
+                    Task
+                </button>
             </div>
         </div>
 

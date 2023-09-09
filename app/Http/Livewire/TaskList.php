@@ -58,7 +58,7 @@ class TaskList extends Component
         $this->tasks = $query->get();
     }
 
-    public function createTask()
+    public function saveTask()
     {
         $this->validate([
             'name' => 'required|string|max:255',
@@ -66,14 +66,23 @@ class TaskList extends Component
             'project_id' => 'required|exists:projects,id',
         ]);
 
-        Task::create([
-            'name' => $this->name,
-            'priority' => empty($this->priority) ? Task::where('project_id', $this->project_id)->max('priority') + 1 : $this->priority,
-            'project_id' => $this->project_id,
-        ]);
+        if(empty($this->task_id) || $this->isEditingTask == false){
+            Task::create([
+                'name' => $this->name,
+                'priority' => empty($this->priority) ? Task::where('project_id', $this->project_id)->max('priority') + 1 : $this->priority,
+                'project_id' => $this->project_id,
+            ]);
+        } else {
+            Task::find($this->task_id)->update([
+                'name' => $this->name,
+                'priority' => empty($this->priority) ? Task::where('project_id', $this->project_id)->max('priority') + 1 : $this->priority,
+                'project_id' => $this->project_id,
+            ]);
+        }
 
         $this->name = '';
         $this->priority = '';
+        $this->isEditingTask = false;
 
         $this->getTasks();
         $this->getProjects();
@@ -166,6 +175,14 @@ class TaskList extends Component
         $this->project_id = $project_id;
         $this->project_name = $this->projects->find($project_id)->name;
         $this->isEditingProject = true;
+    }
+
+    public function editTask($task_id)
+    {
+        $this->task_id = $task_id;
+        $this->name = $this->tasks->find($task_id)->name;
+        $this->priority = $this->tasks->find($task_id)->priority;
+        $this->isEditingTask = true;
     }
 
     public function debug()
