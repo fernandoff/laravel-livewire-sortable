@@ -47,8 +47,6 @@
                     @endforeach
                 </ol>
             </div>
-
-
         @endif
     </div>
 

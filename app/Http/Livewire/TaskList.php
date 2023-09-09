@@ -66,20 +66,19 @@ class TaskList extends Component
             'project_id' => 'required|exists:projects,id',
         ]);
 
+        $data = [
+            'name' => $this->name,
+            'priority' => empty($this->priority) ? Task::where('project_id', $this->project_id)->max('priority') + 1 : $this->priority,
+            'project_id' => $this->project_id,
+        ];
+
         if(empty($this->task_id) || $this->isEditingTask == false){
-            Task::create([
-                'name' => $this->name,
-                'priority' => empty($this->priority) ? Task::where('project_id', $this->project_id)->max('priority') + 1 : $this->priority,
-                'project_id' => $this->project_id,
-            ]);
+            Task::create($data);
         } else {
-            Task::find($this->task_id)->update([
-                'name' => $this->name,
-                'priority' => empty($this->priority) ? Task::where('project_id', $this->project_id)->max('priority') + 1 : $this->priority,
-                'project_id' => $this->project_id,
-            ]);
+            Task::find($this->task_id)->update($data);
         }
 
+        $this->task_id = null;
         $this->name = '';
         $this->priority = '';
         $this->isEditingTask = false;
@@ -100,14 +99,14 @@ class TaskList extends Component
             ],
         ]);
 
+        $data = [
+            'name' => $this->project_name,
+        ];
+
         if(empty($this->project_id) || $this->isEditingProject == false){
-            Project::create([
-                'name' => $this->project_name,
-            ]);
+            Project::create($data);
         } else {
-            Project::find($this->project_id)->update([
-                'name' => $this->project_name,
-            ]);
+            Project::find($this->project_id)->update($data);
         }
 
         $this->isEditingProject = false;
@@ -188,6 +187,7 @@ class TaskList extends Component
     public function debug()
     {
         dump([
+            'task_id' => $this->task_id,
             'name' => $this->name,
             'priority' => $this->priority,
             'project_id' => $this->project_id,
