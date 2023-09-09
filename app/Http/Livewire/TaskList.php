@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use App\Models\Task;
 use App\Models\Project;
@@ -82,7 +83,12 @@ class TaskList extends Component
     public function saveProject()
     {
         $this->validate([
-            'project_name' => 'required|string|max:255|unique:projects,name',
+            'project_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('projects', 'name')->whereNull('deleted_at')->ignore($this->project_id),
+            ],
         ]);
 
         if(empty($this->project_id) || $this->isEditingProject == false){
@@ -95,6 +101,7 @@ class TaskList extends Component
             ]);
         }
 
+        $this->isEditingProject = false;
         $this->project_name = null;
         $this->project_id = null;
 

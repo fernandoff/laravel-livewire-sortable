@@ -56,7 +56,7 @@
 
     <h2 class="text-2xl font-semibold mt-10 mb-4">
         @if($isEditingProject)
-            <span>Save</span>
+            <span>Edit</span>
         @else
             <span>Create</span>
         @endif
@@ -73,7 +73,7 @@
             <div class="flex-shrink-0">
                 <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
                     @if($isEditingProject)
-                        <span>Save</span>
+                        <span>Edit</span>
                     @else
                         <span>Create</span>
                     @endif
