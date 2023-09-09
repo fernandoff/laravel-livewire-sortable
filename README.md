@@ -5,7 +5,7 @@
 <br>
 
 <a href="https://freeimage.host/i/J9O3gse">
-    <img src="https://iili.io/J9O3gse.md.jpg" alt="J9O3gse.md.jpg" border="0" width="70%">
+    <img src="https://iili.io/J9O3gse.jpg" alt="J9O3gse.md.jpg" border="0" width="70%">
 </a>
 
 <br>
@@ -19,9 +19,7 @@
 - configure .env
 - php artisan migrate
 - php artisan serve
-  
 
-<br> 
 
 #### Stack:
 
